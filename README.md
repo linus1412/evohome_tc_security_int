@@ -38,16 +38,12 @@ evohome_tc_security_int/
    cp -r /path/to/repo/custom_components/evohome_security custom_components/
    ```
 
-2. **Copy the required library files**:
-   ```bash
-   # Copy to the custom component directory so it can import them
-   cp /path/to/repo/evosec2.py custom_components/evohome_security/
-   cp /path/to/repo/evohome_security.py custom_components/evohome_security/
-   ```
+   Note: The integration includes all necessary files (evosec2.py and evohome_security.py) 
+   within the component directory, so no additional file copying is needed.
 
-3. **Restart Home Assistant**
+2. **Restart Home Assistant**
 
-4. **Add the integration**:
+3. **Add the integration**:
    - Go to Settings → Devices & Services
    - Click "+ ADD INTEGRATION"
    - Search for "EvoHome Security"

@@ -17,12 +17,8 @@ from homeassistant.const import (
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
-# Import from parent directory (the repository root)
-import sys
-import os
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
-
-from evohome_security import AlarmState, EvoHomeSecurityClient
+# Import from the component directory
+from .evohome_security import AlarmState, EvoHomeSecurityClient
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -96,6 +92,8 @@ class EvoHomeAlarmControlPanel(AlarmControlPanelEntity):
                 await self.async_update()
             else:
                 _LOGGER.error("Failed to disarm alarm")
+        except NotImplementedError:
+            _LOGGER.warning("Disarm functionality not yet implemented in evosec2.py")
         except Exception as err:
             _LOGGER.error("Error disarming alarm: %s", err)
 
@@ -108,6 +106,8 @@ class EvoHomeAlarmControlPanel(AlarmControlPanelEntity):
                 await self.async_update()
             else:
                 _LOGGER.error("Failed to arm alarm (home)")
+        except NotImplementedError:
+            _LOGGER.warning("Arm home functionality not yet implemented in evosec2.py")
         except Exception as err:
             _LOGGER.error("Error arming alarm (home): %s", err)
 
@@ -120,5 +120,7 @@ class EvoHomeAlarmControlPanel(AlarmControlPanelEntity):
                 await self.async_update()
             else:
                 _LOGGER.error("Failed to arm alarm (away)")
+        except NotImplementedError:
+            _LOGGER.warning("Arm away functionality not yet implemented in evosec2.py")
         except Exception as err:
             _LOGGER.error("Error arming alarm (away): %s", err)

@@ -39,19 +39,14 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 echo "Installing EvoHome Security integration..."
 
-# Copy integration files
+# Copy entire integration directory
 echo "Copying integration files..."
-cp "$SCRIPT_DIR/custom_components/evohome_security/__init__.py" "$INTEGRATION_DIR/"
-cp "$SCRIPT_DIR/custom_components/evohome_security/manifest.json" "$INTEGRATION_DIR/"
-cp "$SCRIPT_DIR/custom_components/evohome_security/config_flow.py" "$INTEGRATION_DIR/"
-cp "$SCRIPT_DIR/custom_components/evohome_security/alarm_control_panel.py" "$INTEGRATION_DIR/"
-cp "$SCRIPT_DIR/custom_components/evohome_security/services.yaml" "$INTEGRATION_DIR/"
-cp "$SCRIPT_DIR/custom_components/evohome_security/translations/en.json" "$INTEGRATION_DIR/translations/"
-
-# Copy library files
-echo "Copying library files..."
-cp "$SCRIPT_DIR/evosec2.py" "$INTEGRATION_DIR/"
-cp "$SCRIPT_DIR/evohome_security.py" "$INTEGRATION_DIR/"
+if cp -r "$SCRIPT_DIR/custom_components/evohome_security/"* "$INTEGRATION_DIR/"; then
+    echo "✓ Integration files copied successfully"
+else
+    echo "✗ Error copying integration files"
+    exit 1
+fi
 
 echo ""
 echo "✓ Installation complete!"

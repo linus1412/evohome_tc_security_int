@@ -8,12 +8,8 @@ from homeassistant.const import CONF_PASSWORD, CONF_USERNAME, Platform
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ConfigEntryNotReady
 
-# Import from parent directory (the repository root)
-import sys
-import os
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
-
-from evohome_security import EvoHomeSecurityClient
+# Import from the component directory
+from .evohome_security import EvoHomeSecurityClient
 
 _LOGGER = logging.getLogger(__name__)
 
