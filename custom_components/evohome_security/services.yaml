@@ -1,0 +1,22 @@
+# Services provided by the EvoHome Security integration
+# Note: These services are standard Home Assistant alarm control panel services
+# and are automatically available when you add the integration.
+#
+# Available services:
+# - alarm_control_panel.alarm_disarm
+# - alarm_control_panel.alarm_arm_home
+# - alarm_control_panel.alarm_arm_away
+#
+# Example usage in automations:
+#
+# service: alarm_control_panel.alarm_disarm
+# target:
+#   entity_id: alarm_control_panel.evohome_security_system
+#
+# service: alarm_control_panel.alarm_arm_home
+# target:
+#   entity_id: alarm_control_panel.evohome_security_system
+#
+# service: alarm_control_panel.alarm_arm_away
+# target:
+#   entity_id: alarm_control_panel.evohome_security_system
