@@ -176,13 +176,12 @@ python evohome_security.py
 
 ## Known Limitations
 
-1. **Control Functions Not Implemented**: The current `evosec2.py` only implements status checking. Control functions (arm/disarm) need to be added to the base client.
-2. **Polling Only**: The integration polls for status updates every 30 seconds. Real-time updates would require webhook support from Total Connect.
-3. **Single Panel**: Currently supports one security panel per account.
+1. **Polling Only**: The integration polls for status updates every 30 seconds. Real-time updates would require webhook support from Total Connect.
+2. **Single Panel**: Currently supports one security panel per account.
+3. **Disarm Code**: If your system requires a disarm code, you'll need to configure it in Home Assistant.
 
 ## Future Enhancements
 
-- [ ] Implement arm/disarm commands in evosec2.py
 - [ ] Add zone/sensor support
 - [ ] Support multiple security panels
 - [ ] Add event history
@@ -202,17 +201,17 @@ python evohome_security.py
 - Try removing and re-adding the integration
 
 ### Control Commands Don't Work
-- Control functions (arm/disarm) are currently not implemented in evosec2.py
-- Status monitoring works, but control requires additional implementation
+- Check the Home Assistant logs for specific error messages
+- Verify your account has permission to control the alarm
+- Ensure the system is not in a transitional state
 
 ## Contributing
 
-Contributions are welcome! Areas that need work:
-1. Implementing control commands in evosec2.py
-2. Adding zone/sensor support
-3. Improving error handling
-4. Adding unit tests
-5. Documentation improvements
+Contributions are welcome! Areas that could benefit from enhancements:
+1. Adding zone/sensor support
+2. Improving error handling
+3. Adding unit tests
+4. Documentation improvements
 
 ## License
 

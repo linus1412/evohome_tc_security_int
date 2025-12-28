@@ -86,14 +86,16 @@ class EvoHomeAlarmControlPanel(AlarmControlPanelEntity):
     async def async_alarm_disarm(self, code: str | None = None) -> None:
         """Send disarm command."""
         try:
-            result = await self.hass.async_add_executor_job(self._client.disarm)
+            # Pass the code to the disarm method
+            disarm_code = code or ""
+            result = await self.hass.async_add_executor_job(
+                self._client.disarm, disarm_code
+            )
             if result:
                 _LOGGER.info("Successfully disarmed alarm")
                 await self.async_update()
             else:
                 _LOGGER.error("Failed to disarm alarm")
-        except NotImplementedError:
-            _LOGGER.warning("Disarm functionality not yet implemented in evosec2.py")
         except Exception as err:
             _LOGGER.error("Error disarming alarm: %s", err)
 
@@ -106,8 +108,6 @@ class EvoHomeAlarmControlPanel(AlarmControlPanelEntity):
                 await self.async_update()
             else:
                 _LOGGER.error("Failed to arm alarm (home)")
-        except NotImplementedError:
-            _LOGGER.warning("Arm home functionality not yet implemented in evosec2.py")
         except Exception as err:
             _LOGGER.error("Error arming alarm (home): %s", err)
 
@@ -120,7 +120,5 @@ class EvoHomeAlarmControlPanel(AlarmControlPanelEntity):
                 await self.async_update()
             else:
                 _LOGGER.error("Failed to arm alarm (away)")
-        except NotImplementedError:
-            _LOGGER.warning("Arm away functionality not yet implemented in evosec2.py")
         except Exception as err:
             _LOGGER.error("Error arming alarm (away): %s", err)

@@ -81,43 +81,56 @@ class TestEvoHomeSecurityClient(unittest.TestCase):
         self.assertEqual(client.get_status(), AlarmState.UNKNOWN)
         
     @patch('evohome_security.TotalConnectClient')
-    def test_disarm_not_implemented(self, mock_client_class):
-        """Test that disarm raises NotImplementedError."""
+    def test_disarm_success(self, mock_client_class):
+        """Test successful disarm."""
         mock_client = Mock()
+        mock_client.disarm.return_value = True
         mock_client_class.return_value = mock_client
         
         client = EvoHomeSecurityClient(self.username, self.password)
+        result = client.disarm()
         
-        with self.assertRaises(NotImplementedError) as context:
-            client.disarm()
-        
-        self.assertIn("not yet implemented", str(context.exception).lower())
+        self.assertTrue(result)
+        mock_client.disarm.assert_called_once_with("")
         
     @patch('evohome_security.TotalConnectClient')
-    def test_arm_away_not_implemented(self, mock_client_class):
-        """Test that arm_away raises NotImplementedError."""
+    def test_disarm_with_code(self, mock_client_class):
+        """Test disarm with code."""
         mock_client = Mock()
+        mock_client.disarm.return_value = True
         mock_client_class.return_value = mock_client
         
         client = EvoHomeSecurityClient(self.username, self.password)
+        result = client.disarm("1234")
         
-        with self.assertRaises(NotImplementedError) as context:
-            client.arm_away()
-        
-        self.assertIn("not yet implemented", str(context.exception).lower())
+        self.assertTrue(result)
+        mock_client.disarm.assert_called_once_with("1234")
         
     @patch('evohome_security.TotalConnectClient')
-    def test_arm_home_not_implemented(self, mock_client_class):
-        """Test that arm_home raises NotImplementedError."""
+    def test_arm_away_success(self, mock_client_class):
+        """Test successful arm away."""
         mock_client = Mock()
+        mock_client.arm_total.return_value = True
         mock_client_class.return_value = mock_client
         
         client = EvoHomeSecurityClient(self.username, self.password)
+        result = client.arm_away()
         
-        with self.assertRaises(NotImplementedError) as context:
-            client.arm_home()
+        self.assertTrue(result)
+        mock_client.arm_total.assert_called_once()
         
-        self.assertIn("not yet implemented", str(context.exception).lower())
+    @patch('evohome_security.TotalConnectClient')
+    def test_arm_home_success(self, mock_client_class):
+        """Test successful arm home."""
+        mock_client = Mock()
+        mock_client.arm_partial.return_value = True
+        mock_client_class.return_value = mock_client
+        
+        client = EvoHomeSecurityClient(self.username, self.password)
+        result = client.arm_home()
+        
+        self.assertTrue(result)
+        mock_client.arm_partial.assert_called_once()
         
     @patch('evohome_security.TotalConnectClient')
     def test_logout(self, mock_client_class):

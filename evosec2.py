@@ -744,6 +744,217 @@ class TotalConnectClient:
             self.logger.error(f"Error getting status: {str(e)}")
             return None
 
+    def arm_total(self) -> bool:
+        """Arm the system in total/away mode.
+        
+        Returns:
+            bool: True if the command was successful, False otherwise
+        """
+        self.logger.info("Arming system in total/away mode")
+        
+        # Check if authenticated, authenticate if not
+        if not self.is_authenticated or not self.home_session_id:
+            self.logger.debug("Not authenticated, authenticating first")
+            if not self.authenticate():
+                self.logger.error("Authentication failed, cannot arm system")
+                return False
+        
+        try:
+            # Get the JSESSIONID from the session cookies
+            jsessionid = self.session.cookies.get("JSESSIONID")
+            if not jsessionid:
+                self.logger.warning("No JSESSIONID cookie found in session")
+                return False
+            
+            # Use the arm command endpoint
+            arm_url = "https://tc20e.total-connect.eu/applicationservice/domoweb/panel/commands/arm?isBusy=true&checkCompletion=true"
+            
+            self.logger.debug(f"Sending arm command to {arm_url}")
+            
+            # Set the cookie header
+            cookie_header = f"dw_c_contextpath=; binstallationscreen=false; dw_c_clientName=; dw_c_defaultLocale=en; dw_c_defaultLocaleIndex=1; JSESSIONID={jsessionid}; clickedLogoutBtn=false"
+            
+            # Set all headers
+            from collections import OrderedDict
+            headers = OrderedDict([
+                ("cookie", cookie_header),
+                ("Accept", "application/json, text/javascript, */*; q=0.01"),
+                ("Accept-Language", "en-GB,en;q=0.9,en-US;q=0.8,pl;q=0.7"),
+                ("Connection", "keep-alive"),
+                ("Content-Type", "application/json; charset=UTF-8"),
+                ("DNT", "1"),
+                ("Origin", "https://tc20e.total-connect.eu"),
+                ("Referer", "https://tc20e.total-connect.eu/go/home"),
+                ("Sec-Fetch-Dest", "empty"),
+                ("Sec-Fetch-Mode", "cors"),
+                ("Sec-Fetch-Site", "same-origin"),
+                ("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"),
+                ("X-Requested-With", "XMLHttpRequest"),
+                ("sec-ch-ua", "\"Not)A;Brand\";v=\"8\", \"Chromium\";v=\"138\", \"Google Chrome\";v=\"138\""),
+                ("sec-ch-ua-mobile", "?0"),
+                ("sec-ch-ua-platform", "\"macOS\""),
+                ("x-session-token", self.home_session_id)
+            ])
+            
+            # Send the request
+            response = requests.put(arm_url, headers=headers, data='{"key":"","value":""}')
+            
+            if response.status_code == 200:
+                self.logger.info("Arm total command sent successfully")
+                # Give the system a moment to process
+                import time
+                time.sleep(2)
+                return True
+            else:
+                self.logger.error(f"Arm total command failed with status code: {response.status_code}")
+                return False
+                
+        except Exception as e:
+            self.logger.error(f"Error sending arm total command: {str(e)}")
+            return False
+    
+    def arm_partial(self) -> bool:
+        """Arm the system in partial/home mode.
+        
+        Returns:
+            bool: True if the command was successful, False otherwise
+        """
+        self.logger.info("Arming system in partial/home mode")
+        
+        # Check if authenticated, authenticate if not
+        if not self.is_authenticated or not self.home_session_id:
+            self.logger.debug("Not authenticated, authenticating first")
+            if not self.authenticate():
+                self.logger.error("Authentication failed, cannot arm system")
+                return False
+        
+        try:
+            # Get the JSESSIONID from the session cookies
+            jsessionid = self.session.cookies.get("JSESSIONID")
+            if not jsessionid:
+                self.logger.warning("No JSESSIONID cookie found in session")
+                return False
+            
+            # Use the partial arm command endpoint
+            arm_url = "https://tc20e.total-connect.eu/applicationservice/domoweb/panel/commands/partialarm?isBusy=true&checkCompletion=true"
+            
+            self.logger.debug(f"Sending partial arm command to {arm_url}")
+            
+            # Set the cookie header
+            cookie_header = f"dw_c_contextpath=; binstallationscreen=false; dw_c_clientName=; dw_c_defaultLocale=en; dw_c_defaultLocaleIndex=1; JSESSIONID={jsessionid}; clickedLogoutBtn=false"
+            
+            # Set all headers
+            from collections import OrderedDict
+            headers = OrderedDict([
+                ("cookie", cookie_header),
+                ("Accept", "application/json, text/javascript, */*; q=0.01"),
+                ("Accept-Language", "en-GB,en;q=0.9,en-US;q=0.8,pl;q=0.7"),
+                ("Connection", "keep-alive"),
+                ("Content-Type", "application/json; charset=UTF-8"),
+                ("DNT", "1"),
+                ("Origin", "https://tc20e.total-connect.eu"),
+                ("Referer", "https://tc20e.total-connect.eu/go/home"),
+                ("Sec-Fetch-Dest", "empty"),
+                ("Sec-Fetch-Mode", "cors"),
+                ("Sec-Fetch-Site", "same-origin"),
+                ("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"),
+                ("X-Requested-With", "XMLHttpRequest"),
+                ("sec-ch-ua", "\"Not)A;Brand\";v=\"8\", \"Chromium\";v=\"138\", \"Google Chrome\";v=\"138\""),
+                ("sec-ch-ua-mobile", "?0"),
+                ("sec-ch-ua-platform", "\"macOS\""),
+                ("x-session-token", self.home_session_id)
+            ])
+            
+            # Send the request
+            response = requests.put(arm_url, headers=headers, data='{"key":"","value":""}')
+            
+            if response.status_code == 200:
+                self.logger.info("Arm partial command sent successfully")
+                # Give the system a moment to process
+                import time
+                time.sleep(2)
+                return True
+            else:
+                self.logger.error(f"Arm partial command failed with status code: {response.status_code}")
+                return False
+                
+        except Exception as e:
+            self.logger.error(f"Error sending arm partial command: {str(e)}")
+            return False
+    
+    def disarm(self, code: str = "") -> bool:
+        """Disarm the system.
+        
+        Args:
+            code: Optional disarm code (may be required depending on system configuration)
+        
+        Returns:
+            bool: True if the command was successful, False otherwise
+        """
+        self.logger.info("Disarming system")
+        
+        # Check if authenticated, authenticate if not
+        if not self.is_authenticated or not self.home_session_id:
+            self.logger.debug("Not authenticated, authenticating first")
+            if not self.authenticate():
+                self.logger.error("Authentication failed, cannot disarm system")
+                return False
+        
+        try:
+            # Get the JSESSIONID from the session cookies
+            jsessionid = self.session.cookies.get("JSESSIONID")
+            if not jsessionid:
+                self.logger.warning("No JSESSIONID cookie found in session")
+                return False
+            
+            # Use the disarm command endpoint
+            disarm_url = "https://tc20e.total-connect.eu/applicationservice/domoweb/panel/commands/disarm?isBusy=true&checkCompletion=true"
+            
+            self.logger.debug(f"Sending disarm command to {disarm_url}")
+            
+            # Set the cookie header
+            cookie_header = f"dw_c_contextpath=; binstallationscreen=false; dw_c_clientName=; dw_c_defaultLocale=en; dw_c_defaultLocaleIndex=1; JSESSIONID={jsessionid}; clickedLogoutBtn=false"
+            
+            # Set all headers
+            from collections import OrderedDict
+            headers = OrderedDict([
+                ("cookie", cookie_header),
+                ("Accept", "application/json, text/javascript, */*; q=0.01"),
+                ("Accept-Language", "en-GB,en;q=0.9,en-US;q=0.8,pl;q=0.7"),
+                ("Connection", "keep-alive"),
+                ("Content-Type", "application/json; charset=UTF-8"),
+                ("DNT", "1"),
+                ("Origin", "https://tc20e.total-connect.eu"),
+                ("Referer", "https://tc20e.total-connect.eu/go/home"),
+                ("Sec-Fetch-Dest", "empty"),
+                ("Sec-Fetch-Mode", "cors"),
+                ("Sec-Fetch-Site", "same-origin"),
+                ("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"),
+                ("X-Requested-With", "XMLHttpRequest"),
+                ("sec-ch-ua", "\"Not)A;Brand\";v=\"8\", \"Chromium\";v=\"138\", \"Google Chrome\";v=\"138\""),
+                ("sec-ch-ua-mobile", "?0"),
+                ("sec-ch-ua-platform", "\"macOS\""),
+                ("x-session-token", self.home_session_id)
+            ])
+            
+            # Send the request with disarm code
+            payload = json.dumps({"key": "disarmCode", "value": code})
+            response = requests.put(disarm_url, headers=headers, data=payload)
+            
+            if response.status_code == 200:
+                self.logger.info("Disarm command sent successfully")
+                # Give the system a moment to process
+                import time
+                time.sleep(2)
+                return True
+            else:
+                self.logger.error(f"Disarm command failed with status code: {response.status_code}")
+                return False
+                
+        except Exception as e:
+            self.logger.error(f"Error sending disarm command: {str(e)}")
+            return False
+
     def close(self) -> None:
         """Close the session."""
         self.logger.debug("Closing session")

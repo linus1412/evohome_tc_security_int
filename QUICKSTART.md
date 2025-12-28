@@ -210,13 +210,12 @@ script:
 
 **Problem**: Can't arm/disarm the alarm
 
-**Current Status**: Control commands are not yet implemented in evosec2.py. Only status monitoring works currently. When you try to use control commands, you'll see a warning in the logs:
-
-```
-WARNING: Arm/disarm functionality not yet implemented in evosec2.py
-```
-
-This is expected behavior. The infrastructure is in place for when control commands are added to evosec2.py.
+**Solutions**:
+1. Check the Home Assistant logs for specific error messages
+2. Verify your Total Connect account has permission to control the alarm
+3. Ensure you're using the correct disarm code if required
+4. Verify the system is not in a transitional state (e.g., already arming)
+5. Check network connectivity to Total Connect
 
 ## Getting Help
 
@@ -251,12 +250,13 @@ Go to Settings → System → Logs and look for errors related to:
 
 ### Current Features
 - ✅ View alarm status in real-time
+- ✅ Arm/disarm the alarm via HA UI or automations
 - ✅ Integration with Home Assistant dashboard
 - ✅ Secure credential storage
 - ✅ Status monitoring every 30 seconds
+- ✅ Full control of alarm system
 
-### Future Features (When Implemented)
-- ⏳ Arm/disarm the alarm
+### Future Features
 - ⏳ Individual zone monitoring
 - ⏳ Event history
 - ⏳ Real-time push notifications
@@ -267,11 +267,6 @@ Want to help add features? Check out:
 - `ARCHITECTURE.md` - Understand the design
 - `README.md` - Full documentation
 - GitHub issues - See what needs work
-
-The main task is implementing control commands in `evosec2.py`:
-1. Add `arm_total()`, `arm_partial()`, `disarm()` methods
-2. Implement the API calls
-3. Update `evohome_security.py` to use them
 
 ## Reference
 

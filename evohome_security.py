@@ -78,38 +78,44 @@ class EvoHomeSecurityClient:
             self.logger.error(f"Error getting status: {e}")
             return AlarmState.UNKNOWN
 
-    def disarm(self) -> bool:
+    def disarm(self, code: str = "") -> bool:
         """Disarm the alarm system.
+
+        Args:
+            code: Optional disarm code (may be required depending on system configuration)
 
         Returns:
             bool: True if successful, False otherwise
-            
-        Raises:
-            NotImplementedError: This functionality is not yet implemented in evosec2.py
         """
-        raise NotImplementedError("Disarm functionality not yet implemented in evosec2.py")
+        try:
+            return self._client.disarm(code)
+        except Exception as e:
+            self.logger.error(f"Error disarming: {e}")
+            return False
 
     def arm_away(self) -> bool:
         """Arm the alarm system in away mode (total arm).
 
         Returns:
             bool: True if successful, False otherwise
-            
-        Raises:
-            NotImplementedError: This functionality is not yet implemented in evosec2.py
         """
-        raise NotImplementedError("Arm away functionality not yet implemented in evosec2.py")
+        try:
+            return self._client.arm_total()
+        except Exception as e:
+            self.logger.error(f"Error arming away: {e}")
+            return False
 
     def arm_home(self) -> bool:
         """Arm the alarm system in home mode (partial arm).
 
         Returns:
             bool: True if successful, False otherwise
-            
-        Raises:
-            NotImplementedError: This functionality is not yet implemented in evosec2.py
         """
-        raise NotImplementedError("Arm home functionality not yet implemented in evosec2.py")
+        try:
+            return self._client.arm_partial()
+        except Exception as e:
+            self.logger.error(f"Error arming home: {e}")
+            return False
 
     def logout(self) -> bool:
         """Logout from the Total Connect system.
