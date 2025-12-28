@@ -1,0 +1,12 @@
+{
+  "domain": "evohome_security",
+  "name": "EvoHome Total Connect Security",
+  "codeowners": ["@linus1412"],
+  "config_flow": true,
+  "documentation": "https://github.com/linus1412/evohome_tc_security_int",
+  "issue_tracker": "https://github.com/linus1412/evohome_tc_security_int/issues",
+  "requirements": ["requests>=2.31.0"],
+  "version": "1.0.0",
+  "iot_class": "cloud_polling",
+  "after_dependencies": []
+}
