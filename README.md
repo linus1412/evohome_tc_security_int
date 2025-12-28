@@ -1,5 +1,9 @@
 # EvoHome Total Connect Security Integration
 
+[![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/hacs/integration)
+[![GitHub Release](https://img.shields.io/github/release/linus1412/evohome_tc_security_int.svg)](https://github.com/linus1412/evohome_tc_security_int/releases)
+[![License](https://img.shields.io/github/license/linus1412/evohome_tc_security_int.svg)](LICENSE)
+
 This project provides both a standalone Python library and a Home Assistant custom component for controlling EvoHome Total Connect Security systems (European/International version).
 
 ## Features
@@ -9,6 +13,7 @@ This project provides both a standalone Python library and a Home Assistant cust
 - **Alarm Control**: Monitor and control your alarm system (disarm, arm home, arm away)
 - **Secure Configuration**: Credentials stored securely using Home Assistant's config flow
 - **Status Monitoring**: Real-time alarm status updates
+- **HACS Ready**: Easy installation and updates through HACS
 
 ## Project Structure
 
@@ -29,7 +34,32 @@ evohome_tc_security_int/
 
 ## Installation
 
-### Option 1: Home Assistant Custom Component (Recommended)
+### Option 1: HACS (Recommended)
+
+[![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/hacs/integration)
+
+1. **Add custom repository to HACS**:
+   - Open HACS in Home Assistant
+   - Click on "Integrations"
+   - Click the three dots menu in the top right
+   - Select "Custom repositories"
+   - Add `https://github.com/linus1412/evohome_tc_security_int` as repository
+   - Select "Integration" as category
+   - Click "Add"
+
+2. **Install the integration**:
+   - Search for "EvoHome Total Connect Security" in HACS
+   - Click "Download"
+   - Restart Home Assistant
+
+3. **Configure the integration**:
+   - Go to Settings → Devices & Services
+   - Click "+ ADD INTEGRATION"
+   - Search for "EvoHome Security"
+   - Enter your Total Connect username and password
+   - The integration will validate your credentials and add the alarm control panel
+
+### Option 2: Manual Installation
 
 1. **Copy the integration to your Home Assistant**:
    ```bash
@@ -50,7 +80,7 @@ evohome_tc_security_int/
    - Enter your Total Connect username and password
    - The integration will validate your credentials and add the alarm control panel
 
-### Option 2: Standalone Library
+### Option 3: Standalone Library
 
 Use the library in your own Python scripts:
 

@@ -6,7 +6,19 @@ Get up and running with the EvoHome Security integration in minutes!
 
 ### 1. Install the Integration
 
-Use the provided installation script:
+**Option A: HACS (Recommended)**
+
+1. Open HACS in Home Assistant
+2. Click on "Integrations"
+3. Click the three dots menu (⋮) in the top right
+4. Select "Custom repositories"
+5. Add `https://github.com/linus1412/evohome_tc_security_int` as repository
+6. Select "Integration" as category
+7. Click "Add"
+8. Search for "EvoHome Total Connect Security"
+9. Click "Download"
+
+**Option B: Manual Installation Script**
 
 ```bash
 # Clone or download the repository
@@ -16,7 +28,7 @@ cd /path/to/evohome_tc_security_int
 ./install_ha.sh /config  # Replace with your HA config directory
 ```
 
-Or manually copy files:
+**Option C: Manual Copy**
 
 ```bash
 # Copy the integration to your Home Assistant
