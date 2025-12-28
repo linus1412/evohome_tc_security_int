@@ -8,7 +8,7 @@ import logging
 from typing import Optional
 from enum import Enum
 
-from evosec2 import TotalConnectClient, ArmStatus
+from .evosec2 import TotalConnectClient, ArmStatus
 
 
 class AlarmState(Enum):
