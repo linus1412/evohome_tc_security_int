@@ -40,6 +40,7 @@ class EvoHomeAlarmControlPanel(AlarmControlPanelEntity):
 
     _attr_has_entity_name = True
     _attr_name = None
+    _attr_should_poll = True
     _attr_supported_features = (
         AlarmControlPanelEntityFeature.ARM_HOME
         | AlarmControlPanelEntityFeature.ARM_AWAY
@@ -56,6 +57,7 @@ class EvoHomeAlarmControlPanel(AlarmControlPanelEntity):
             model="EvoHome Security",
         )
         self._attr_state = None
+        self._attr_available = True
 
     async def async_update(self) -> None:
         """Update the state of the alarm."""
@@ -76,8 +78,12 @@ class EvoHomeAlarmControlPanel(AlarmControlPanelEntity):
                 self._attr_state = None
                 _LOGGER.warning("Unknown alarm state received")
 
+            # Mark as available if we got a state
+            self._attr_available = True
+
         except Exception as err:
             _LOGGER.error("Error updating alarm state: %s", err)
+            self._attr_available = False
             self._attr_state = None
 
     async def async_alarm_disarm(self, code: str | None = None) -> None:
