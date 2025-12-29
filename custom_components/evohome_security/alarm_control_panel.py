@@ -12,6 +12,7 @@ from homeassistant.components.alarm_control_panel import (
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
+from homeassistant.helpers.device_registry import DeviceInfo
 
 # Import from the component directory
 from .evohome_security import AlarmState, EvoHomeSecurityClient
@@ -48,12 +49,12 @@ class EvoHomeAlarmControlPanel(AlarmControlPanelEntity):
         """Initialize the alarm control panel."""
         self._client = client
         self._attr_unique_id = f"{entry.entry_id}_alarm"
-        self._attr_device_info = {
-            "identifiers": {(DOMAIN, entry.entry_id)},
-            "name": "EvoHome Security System",
-            "manufacturer": "Total Connect",
-            "model": "EvoHome Security",
-        }
+        self._attr_device_info = DeviceInfo(
+            identifiers={(DOMAIN, entry.entry_id)},
+            name="EvoHome Security System",
+            manufacturer="Total Connect",
+            model="EvoHome Security",
+        )
         self._attr_state = None
 
     async def async_update(self) -> None:
