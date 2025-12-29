@@ -7,13 +7,9 @@ from typing import Any
 from homeassistant.components.alarm_control_panel import (
     AlarmControlPanelEntity,
     AlarmControlPanelEntityFeature,
+    AlarmControlPanelState,
 )
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import (
-    STATE_ALARM_ARMED_AWAY,
-    STATE_ALARM_ARMED_HOME,
-    STATE_ALARM_DISARMED,
-)
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
@@ -70,11 +66,11 @@ class EvoHomeAlarmControlPanel(AlarmControlPanelEntity):
 
             # Map to Home Assistant states
             if alarm_state == AlarmState.DISARMED:
-                self._attr_state = STATE_ALARM_DISARMED
+                self._attr_state = AlarmControlPanelState.DISARMED
             elif alarm_state == AlarmState.ARMED_HOME:
-                self._attr_state = STATE_ALARM_ARMED_HOME
+                self._attr_state = AlarmControlPanelState.ARMED_HOME
             elif alarm_state == AlarmState.ARMED_AWAY:
-                self._attr_state = STATE_ALARM_ARMED_AWAY
+                self._attr_state = AlarmControlPanelState.ARMED_AWAY
             else:
                 self._attr_state = None
                 _LOGGER.warning("Unknown alarm state received")
