@@ -7,15 +7,12 @@ from typing import Any
 from homeassistant.components.alarm_control_panel import (
     AlarmControlPanelEntity,
     AlarmControlPanelEntityFeature,
+    AlarmControlPanelState,
 )
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import (
-    STATE_ALARM_ARMED_AWAY,
-    STATE_ALARM_ARMED_HOME,
-    STATE_ALARM_DISARMED,
-)
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
+from homeassistant.helpers.device_registry import DeviceInfo
 
 # Import from the component directory
 from .evohome_security import AlarmState, EvoHomeSecurityClient
@@ -52,12 +49,12 @@ class EvoHomeAlarmControlPanel(AlarmControlPanelEntity):
         """Initialize the alarm control panel."""
         self._client = client
         self._attr_unique_id = f"{entry.entry_id}_alarm"
-        self._attr_device_info = {
-            "identifiers": {(DOMAIN, entry.entry_id)},
-            "name": "EvoHome Security System",
-            "manufacturer": "Total Connect",
-            "model": "EvoHome Security",
-        }
+        self._attr_device_info = DeviceInfo(
+            identifiers={(DOMAIN, entry.entry_id)},
+            name="EvoHome Security System",
+            manufacturer="Total Connect",
+            model="EvoHome Security",
+        )
         self._attr_state = None
 
     async def async_update(self) -> None:
@@ -70,11 +67,11 @@ class EvoHomeAlarmControlPanel(AlarmControlPanelEntity):
 
             # Map to Home Assistant states
             if alarm_state == AlarmState.DISARMED:
-                self._attr_state = STATE_ALARM_DISARMED
+                self._attr_state = AlarmControlPanelState.DISARMED
             elif alarm_state == AlarmState.ARMED_HOME:
-                self._attr_state = STATE_ALARM_ARMED_HOME
+                self._attr_state = AlarmControlPanelState.ARMED_HOME
             elif alarm_state == AlarmState.ARMED_AWAY:
-                self._attr_state = STATE_ALARM_ARMED_AWAY
+                self._attr_state = AlarmControlPanelState.ARMED_AWAY
             else:
                 self._attr_state = None
                 _LOGGER.warning("Unknown alarm state received")
